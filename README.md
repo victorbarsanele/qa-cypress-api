@@ -1,5 +1,8 @@
 # ServeRest API Tests
 
+[![CI Status](https://github.com/victorbarsanele/qa-cypress-api/actions/workflows/ci.yml/badge.svg)](https://github.com/victorbarsanele/qa-cypress-api/actions)
+
+
 **Languages / Idiomas:**
 - [🇧🇷 Português Brasileiro](#português-brasileiro)
 - [🇺🇸 English (US)](#english-us)
