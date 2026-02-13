@@ -92,12 +92,14 @@ describe('Users CRUD API', () => {
 
     it('should fail to update an user with already used email', () => {
         //Create another user to have an email to test the update with existing email scenario
+        const secondEmail = `user_${Date.now()}@testapi.com`;
+
         cy.request({
             method: 'POST',
             url: apiUrl,
             body: {
                 nome: 'Another User',
-                email: 'anotheruser@testapi.com',
+                email: secondEmail,
                 password: "1vaaavv23112",
                 administrador: "true"
             }
@@ -110,7 +112,7 @@ describe('Users CRUD API', () => {
             url: `${apiUrl}/${userId}`,
             body: {
                 nome: 'Another User Updated',
-                email: 'anotheruser@testapi.com', // Use an already existing email
+                email: secondEmail, // Use an already existing email
                 password: "1vaaavv23112",
                 administrador: "true"
             },

@@ -6,6 +6,12 @@ describe('Auth API', () => {
     });
 
     it('should login via API and authenticate user', function() {
+        cy.createUser({
+            nome: 'AuthTestUser',
+            email: this.userData.email,
+            password: this.userData.password,
+            administrador: "true"
+        });
         cy.request({
             method: 'POST',
             url: '/login',

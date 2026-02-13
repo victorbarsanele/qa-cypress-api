@@ -3,146 +3,62 @@
 [![CI Status](https://github.com/victorbarsanele/qa-cypress-api/actions/workflows/ci.yml/badge.svg)](https://github.com/victorbarsanele/qa-cypress-api/actions)
 
 
-**Languages / Idiomas:**
-- [🇧🇷 Português Brasileiro](#português-brasileiro)
-- [🇺🇸 English (US)](#english-us)
+🇧🇷 [Português](#-português) | 🇺🇸 [English](#-english)
 
 ---
 
-## Português Brasileiro
+### 🇧🇷 Português
 
-Este projeto contém testes de automação de API usando Cypress.
+# Testes de API - ServeRest (Em Desenvolvimento)
 
-🚧 Status: Em progresso  
-Implementando fluxos de usuários e produtos.  
-Pipeline de CI configurado.
+Este projeto contém testes automatizados de API utilizando Cypress para a API ServeRest.
 
-### Stack Tecnológico
+🚧 **Status:** Em desenvolvimento  
+Atualmente implementando fluxos de usuário, autenticação e produtos.  
+Pipeline de CI configurado com GitHub Actions.
+
+## 🎯 Objetivo
+
+Praticar conceitos de automação de API como:
+
+- Encadeamento de requisições
+- Autenticação baseada em token
+- Isolamento de dados de teste
+- Validação de CRUD
+- Testes de cenários negativos
+
+## 🛠 Tecnologias
+
 - Cypress
 - JavaScript
-- GitHub Actions
-
-### Objetivo
-Praticar automação de API, encadeamento de requisições e isolamento de dados de teste.
-
-### Estrutura do Projeto
-
-```
-cypress/
-├── e2e/
-│   ├── auth.cy.js       # Testes de autenticação
-│   └── users.cy.js      # Testes CRUD de usuários
-├── fixtures/
-│   └── user.json        # Dados de fixture de usuário
-└── support/
-    ├── commands.js      # Comandos customizados do Cypress
-    └── e2e.js          # Configuração de suporte e2e
-```
-
-### Como Executar
-
-#### Instalação
-```bash
-npm install
-```
-
-#### Abrir Cypress (Modo interativo)
-```bash
-npx cypress open
-```
-
-#### Rodar testes em headless
-```bash
-npx cypress run
-```
-
-### Fluxos de Teste
-
-**Autenticação**
-- Login via API
-- Armazenamento de token JWT
-- Autenticação em requisições subsequentes
-
-**CRUD de Usuários**
-- Criar novo usuário
-- Listar todos os usuários
-- Buscar usuário por ID
-- Atualizar usuário
-- Excluir usuário
-
-### Aprendizados
-- `cy.fixture()` com aliases (`as()`)
-- Funções regulares vs arrow functions em Cypress (contexto `this`)
-- Encadeamento de requisições com `cy.request()`
-- Gestão de estado entre testes
-- Validação de respostas HTTP
+- GitHub Actions (CI)
+- API ServeRest
 
 ---
 
-## English (US)
+## 🇺🇸 English
 
-This project contains API automation tests using Cypress.
+# ServeRest API Tests (Work in Progress)
 
-🚧 Status: In progress  
-Currently implementing user and product flows.  
-CI pipeline configured.
+This project contains API automation tests using Cypress for the ServeRest API.
 
-### Tech Stack
+🚧 **Status:** In progress  
+Currently implementing user, authentication, and product flows.  
+CI pipeline configured with GitHub Actions.
+
+## 🎯 Goal
+
+Practice API automation concepts such as:
+
+- Request chaining
+- Token-based authentication
+- Test data isolation
+- CRUD validation
+- Negative scenario testing
+
+## 🛠 Tech Stack
+
 - Cypress
 - JavaScript
-- GitHub Actions
-
-### Goal
-Practice API automation, request chaining, and test data isolation.
-
-### Project Structure
-
-```
-cypress/
-├── e2e/
-│   ├── auth.cy.js       # Authentication tests
-│   └── users.cy.js      # Users CRUD tests
-├── fixtures/
-│   └── user.json        # User fixture data
-└── support/
-    ├── commands.js      # Cypress custom commands
-    └── e2e.js          # E2E support configuration
-```
-
-### How to Run
-
-#### Installation
-```bash
-npm install
-```
-
-#### Open Cypress (Interactive mode)
-```bash
-npx cypress open
-```
-
-#### Run tests in headless mode
-```bash
-npx cypress run
-```
-
-### Test Flows
-
-**Authentication**
-- Login via API
-- JWT token storage
-- Authentication in subsequent requests
-
-**Users CRUD**
-- Create new user
-- List all users
-- Get user by ID
-- Update user
-- Delete user
-
-### Learning Outcomes
-- `cy.fixture()` with aliases (`as()`)
-- Regular functions vs arrow functions in Cypress (context `this`)
-- Request chaining with `cy.request()`
-- State management between tests
-- HTTP response validation
+- GitHub Actions (CI)
+- ServeRest API
