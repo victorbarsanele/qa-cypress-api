@@ -1,4 +1,4 @@
-/// <references types="cypress" />   
+/// <references types="cypress" />
 
 describe('Users CRUD API', () => {
     const apiUrl = '/usuarios';
@@ -12,14 +12,16 @@ describe('Users CRUD API', () => {
             body: {
                 nome: 'DTestUser-Gilgamesh',
                 email: `gilgameshtestxD@testapi.com`,
-                password: "1vaaavv23112",
-                administrador: "true"
-            }
+                password: '1vaaavv23112',
+                administrador: 'true',
+            },
         }).then((response) => {
             cy.log(JSON.stringify(response.body));
             userId = response.body._id; // Store user ID for later tests
             expect(response.status).to.eq(201);
-            expect(response.body.message).to.eq('Cadastro realizado com sucesso');
+            expect(response.body.message).to.eq(
+                'Cadastro realizado com sucesso',
+            );
             expect(response.body._id).to.eq(userId);
         });
     });
@@ -30,14 +32,16 @@ describe('Users CRUD API', () => {
             url: apiUrl,
             body: {
                 nome: 'FTestUser-Gilgamesh',
-                email: 'gilgameshtestx@testapi.com', // Use the same email as before
-                password: "1vvvvv23112",
-                administrador: "true"
+                email: 'gilgameshtestxD@testapi.com', // Use the same email as before
+                password: '1vvvvv23112',
+                administrador: 'true',
             },
-            failOnStatusCode: false
+            failOnStatusCode: false,
         }).then((response) => {
             expect(response.status).to.eq(400);
-            expect(response.body.message).to.eq('Este email já está sendo usado');
+            expect(response.body.message).to.eq(
+                'Este email já está sendo usado',
+            );
         });
     });
 
@@ -53,7 +57,7 @@ describe('Users CRUD API', () => {
         cy.request({
             method: 'GET',
             url: `${apiUrl}/${userId}`,
-            failOnStatusCode: false
+            failOnStatusCode: false,
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body._id).to.eq(userId);
@@ -66,12 +70,11 @@ describe('Users CRUD API', () => {
         cy.request({
             method: 'GET',
             url: `${apiUrl}/GxxeufdelPG0dpPC`, // Use an invalid user ID
-            failOnStatusCode: false
+            failOnStatusCode: false,
         }).then((response) => {
             expect(response.status).to.eq(400);
             expect(response.body.message).to.eq('Usuário não encontrado');
-        }
-        );
+        });
     });
 
     it('should update an user', () => {
@@ -81,12 +84,14 @@ describe('Users CRUD API', () => {
             body: {
                 nome: 'DTestUser-Gilgamesh-Updated',
                 email: 'gilgameshtestxD-updated@testapi.com',
-                password: "1vaaavv23112",
-                administrador: "true"
-            }
+                password: '1vaaavv23112',
+                administrador: 'true',
+            },
         }).then((response) => {
             expect(response.status).to.eq(200);
-            expect(response.body.message).to.eq('Registro alterado com sucesso');
+            expect(response.body.message).to.eq(
+                'Registro alterado com sucesso',
+            );
         });
     });
 
@@ -100,9 +105,9 @@ describe('Users CRUD API', () => {
             body: {
                 nome: 'Another User',
                 email: secondEmail,
-                password: "1vaaavv23112",
-                administrador: "true"
-            }
+                password: '1vaaavv23112',
+                administrador: 'true',
+            },
         }).then((response) => {
             secondUserId = response.body._id; // Store second user ID for later tests
         });
@@ -113,23 +118,27 @@ describe('Users CRUD API', () => {
             body: {
                 nome: 'Another User Updated',
                 email: secondEmail, // Use an already existing email
-                password: "1vaaavv23112",
-                administrador: "true"
+                password: '1vaaavv23112',
+                administrador: 'true',
             },
-            failOnStatusCode: false
+            failOnStatusCode: false,
         }).then((response) => {
             expect(response.status).to.eq(400);
-            expect(response.body.message).to.eq('Este email já está sendo usado');
+            expect(response.body.message).to.eq(
+                'Este email já está sendo usado',
+            );
         });
     });
 
     it('should delete an user', () => {
         cy.request({
             method: 'DELETE',
-            url: `${apiUrl}/${userId}`
+            url: `${apiUrl}/${userId}`,
         }).then((response) => {
             expect(response.status).to.eq(200);
-            expect(response.body.message).to.eq('Registro excluído com sucesso');
+            expect(response.body.message).to.eq(
+                'Registro excluído com sucesso',
+            );
         });
     });
 
@@ -137,7 +146,7 @@ describe('Users CRUD API', () => {
         cy.request({
             method: 'DELETE',
             url: `${apiUrl}/GxxeufdelPG0dpPC`, // Use an invalid user ID
-            failOnStatusCode: false
+            failOnStatusCode: false,
         }).then((response) => {
             expect(response.status).to.eq(200);
             expect(response.body.message).to.eq('Nenhum registro excluído');
