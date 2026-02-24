@@ -3,7 +3,6 @@
 describe('Users CRUD API', () => {
     const apiUrl = '/usuarios';
     let userId;
-    let secondUserId;
 
     it('should create a new user', () => {
         cy.request({
@@ -108,9 +107,7 @@ describe('Users CRUD API', () => {
                 password: '1vaaavv23112',
                 administrador: 'true',
             },
-        }).then((response) => {
-            secondUserId = response.body._id; // Store second user ID for later tests
-        });
+        }).then((response) => {});
         // Attempt to update the first user with the email of the second user
         cy.request({
             method: 'PUT',
