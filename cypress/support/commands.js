@@ -35,3 +35,49 @@ Cypress.Commands.add('Login', (email, password) => {
             return response.body.authorization;
         });
 });
+
+Cypress.Commands.add('createProduct', (product, authToken) => {
+    return cy
+        .request({
+            method: 'POST',
+            url: '/produtos',
+            headers: {
+                Authorization: authToken,
+            },
+            body: product,
+        })
+        .then((response) => {
+            return response.body._id; // Return the product ID for use in tests
+        });
+});
+
+Cypress.Commands.add('deleteCart', (cartId, authToken) => {
+    return cy
+        .request({
+            method: 'DELETE',
+            url: `/carrinhos/cancelar-compra`,
+            headers: {
+                Authorization: authToken,
+            },
+        })
+        .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body.message).to.eq(
+                'Registro excluído com sucesso. Estoque dos produtos reabastecido',
+            );
+        });
+});
+Cypress.Commands.add('createCart', (cart, authToken) => {
+    return cy
+        .request({
+            method: 'POST',
+            url: '/carrinhos',
+            headers: {
+                Authorization: authToken,
+            },
+            body: cart,
+        })
+        .then((response) => {
+            return response.body._id; // Return the cart ID for use in tests
+        });
+});
