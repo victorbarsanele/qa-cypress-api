@@ -311,5 +311,69 @@ describe('Products CRUD API', () => {
             });
         });
     });
-    // TODO: Do not let delete product if it is in a cart or order
+    it('should not delete a product that is in a cart', () => {
+        let cartId;
+        const productInCartName = `Cart Product ${Date.now()}`; // Generate a unique product name for this test
+        // First, create a product to be added to cart
+        cy.request({
+            method: 'POST',
+            url: apiUrl,
+            headers: {
+                Authorization: authToken,
+            },
+            body: {
+                nome: productInCartName,
+                preco: 59,
+                descricao:
+                    'This product will be added to cart and should not be deleted',
+                quantidade: 20,
+            },
+        }).then((response) => {
+            const productInCartId = response.body._id; // Store the ID of the product to be added to cart
+            // Add the product to cart
+            cy.request({
+                method: 'POST',
+                url: '/carrinhos',
+                headers: {
+                    Authorization: authToken,
+                },
+                body: {
+                    produtos: [
+                        {
+                            idProduto: productInCartId,
+                            quantidade: 1,
+                        },
+                    ],
+                },
+            }).then((response) => {
+                cartId = response.body._id; // Store the cart ID for cleanup
+                // Now try to delete the product that is in the cart
+                cy.request({
+                    method: 'DELETE',
+                    url: `${apiUrl}/${productInCartId}`,
+                    headers: {
+                        Authorization: authToken,
+                    },
+                    failOnStatusCode: false,
+                }).then((response) => {
+                    expect(response.status).to.eq(400);
+                    expect(response.body.message).to.eq(
+                        'Não é permitido excluir produto que faz parte de carrinho',
+                    );
+                    // Cleanup: delete the cart and then the product
+                    cy.deleteCart(cartId, authToken).then(() => {
+                        cy.request({
+                            method: 'DELETE',
+                            url: `${apiUrl}/${productInCartId}`,
+                            headers: {
+                                Authorization: authToken,
+                            },
+                        }).then((response) => {
+                            expect(response.status).to.eq(200);
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
