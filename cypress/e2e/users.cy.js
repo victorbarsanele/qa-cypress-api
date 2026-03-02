@@ -128,14 +128,16 @@ describe('Users CRUD API', () => {
     });
 
     it('should delete an user', () => {
-        cy.request({
-            method: 'DELETE',
-            url: `${apiUrl}/${userId}`,
-        }).then((response) => {
-            expect(response.status).to.eq(200);
-            expect(response.body.message).to.eq(
-                'Registro excluído com sucesso',
-            );
+        cy.deleteUser(userId).then(() => {
+            // Check if the user was deleted by trying to get the user data
+            cy.request({
+                method: 'GET',
+                url: `${apiUrl}/${userId}`,
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+                expect(response.body.message).to.eq('Usuário não encontrado');
+            });
         });
     });
 
@@ -149,6 +151,66 @@ describe('Users CRUD API', () => {
             expect(response.body.message).to.eq('Nenhum registro excluído');
         });
     });
+    it('should not delete an user with cart not empty', () => {
+        let authToken;
+        let productId;
+        // Create a user, login, create a product, add to cart and then try to delete the user
+        cy.fixture('user').then((userData) => {
+            const uniqueEmail = `user_${Date.now()}@testapi.com`;
+            cy.createUser({ ...userData }).then(
+                ({ email, password, userId }) => {
+                    const newUserId = userId; // Store the new user ID for use in cart tests
+                    cy.Login(email, password).then((token) => {
+                        authToken = token; // Store the token for use in subsequent requests
 
-    //TODO: Do not let user with cart not empty be deleted, test this scenario when the API is updated to handle this case
+                        // Create a product to be added to cart
+                        cy.fixture('product').then((productData) => {
+                            const uniqueProductName = `Mouse Logitech ${Date.now()}`;
+                            cy.createProduct(
+                                { ...productData, nome: uniqueProductName },
+                                authToken,
+                            ).then((id) => {
+                                productId = id; // Store product ID for use in cart tests
+
+                                // Add product to cart
+                                cy.request({
+                                    method: 'POST',
+                                    url: '/carrinhos',
+                                    headers: {
+                                        Authorization: authToken,
+                                    },
+                                    body: {
+                                        produtos: [
+                                            {
+                                                idProduto: productId,
+                                                quantidade: 1,
+                                            },
+                                        ],
+                                    },
+                                }).then((response) => {
+                                    expect(response.status).to.eq(201);
+                                    expect(response.body.message).to.eq(
+                                        'Cadastro realizado com sucesso',
+                                    );
+                                    cy.deleteUser(newUserId).then(() => {
+                                        // Check if the user was deleted or not based on the response of deleteUser command
+                                        cy.request({
+                                            method: 'GET',
+                                            url: `${apiUrl}/${newUserId}`,
+                                            failOnStatusCode: false,
+                                        }).then((response) => {
+                                            expect(response.status).to.eq(200);
+                                            expect(response.body._id).to.eq(
+                                                newUserId,
+                                            ); // If user is not deleted, it should return the user data
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                },
+            );
+        });
+    });
 });
