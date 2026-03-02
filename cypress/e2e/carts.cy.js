@@ -45,7 +45,7 @@ describe('Cart API', () => {
                 ],
             },
         }).then((response) => {
-            cartId = response.body._id; // Store cart ID for later tests
+            cartId = response.body._id;
             expect(response.status).to.eq(201);
             expect(response.body.message).to.eq(
                 'Cadastro realizado com sucesso',
@@ -141,7 +141,7 @@ describe('Cart API', () => {
             },
             authToken,
         ).then((id) => {
-            cartId = id; // Store cart ID for later tests
+            cartId = id;
         });
         cy.request({
             method: 'POST',
@@ -192,6 +192,93 @@ describe('Cart API', () => {
             expect(response.body.message).to.eq(
                 'Registro excluído com sucesso. Estoque dos produtos reabastecido',
             );
+        });
+    });
+
+    it('should not delete a cart that does not exist', () => {
+        cy.request({
+            method: 'DELETE',
+            url: `${apiUrl}/cancelar-compra`,
+            headers: {
+                Authorization: authToken,
+            },
+            failOnStatusCode: false,
+        }).then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body.message).to.eq(
+                'Não foi encontrado carrinho para esse usuário',
+            );
+        });
+    });
+
+    it('should not delete a cart without authentication', () => {
+        cy.request({
+            method: 'DELETE',
+            url: `${apiUrl}/cancelar-compra`,
+            failOnStatusCode: false,
+        }).then((response) => {
+            expect(response.status).to.eq(401);
+            expect(response.body.message).to.eq(
+                'Token de acesso ausente, inválido, expirado ou usuário do token não existe mais',
+            );
+        });
+    });
+
+    it('should not create a cart without authentication', () => {
+        cy.request({
+            method: 'POST',
+            url: apiUrl,
+            body: {
+                produtos: [
+                    {
+                        idProduto: productId,
+                        quantidade: 1,
+                    },
+                ],
+            },
+            failOnStatusCode: false,
+        }).then((response) => {
+            expect(response.status).to.eq(401);
+            expect(response.body.message).to.eq(
+                'Token de acesso ausente, inválido, expirado ou usuário do token não existe mais',
+            );
+        });
+    });
+
+    it('should search for a cart by ID', () => {
+        cy.createCart(
+            {
+                produtos: [
+                    {
+                        idProduto: productId,
+                        quantidade: 1,
+                    },
+                ],
+            },
+            authToken,
+        ).then((id) => {
+            cartId = id;
+            cy.request({
+                method: 'GET',
+                url: `${apiUrl}/${cartId}`,
+                headers: {
+                    Authorization: authToken,
+                },
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('_id', cartId);
+                expect(response.body.produtos).to.be.an('array');
+            });
+        });
+    });
+
+    it('should not find a cart with an invalid ID', () => {
+        cy.request({
+            method: 'GET',
+            url: `${apiUrl}/invalidCartId555`,
+            failOnStatusCode: false,
+        }).then((response) => {
+            expect(response.status).to.eq(400);
         });
     });
 });
