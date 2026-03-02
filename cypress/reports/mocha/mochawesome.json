@@ -1,0 +1,124 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-03-02T22:31:14.270Z",
+    "end": "2026-03-02T22:31:15.073Z",
+    "duration": 803,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0c44268b-763a-405d-9577-cd6cca59e66c",
+      "title": "",
+      "fullFile": "cypress\\e2e\\auth.cy.js",
+      "file": "cypress\\e2e\\auth.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a9ba4329-80ad-49a9-bf39-0f4ea29c0906",
+          "title": "Auth API",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should login via API and authenticate user",
+              "fullTitle": "Auth API should login via API and authenticate user",
+              "timedOut": null,
+              "duration": 594,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.createUser(this.userData).then(user => {\n  cy.request({\n    method: 'POST',\n    url: '/login',\n    body: {\n      email: user.email,\n      password: user.password\n    }\n  }).then(response => {\n    expect(response.status).to.eq(200);\n    expect(response.body).to.have.property('authorization').and.to.be.a('string');\n    // Store token for subsequent requests\n    cy.window().then(win => {\n      win.localStorage.setItem('authToken', response.body.authorization);\n    });\n  });\n});",
+              "err": {},
+              "uuid": "47716e23-4373-44eb-a612-0ada339379c0",
+              "parentUUID": "a9ba4329-80ad-49a9-bf39-0f4ea29c0906",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should fail to login with invalid credentials",
+              "fullTitle": "Auth API should fail to login with invalid credentials",
+              "timedOut": null,
+              "duration": 179,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  method: 'POST',\n  url: '/login',\n  body: {\n    email: 'invalid@example.com',\n    password: 'wrongpassword'\n  },\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(401);\n});",
+              "err": {},
+              "uuid": "8194941d-ce4e-4b00-9d83-75137ffdf6ac",
+              "parentUUID": "a9ba4329-80ad-49a9-bf39-0f4ea29c0906",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "47716e23-4373-44eb-a612-0ada339379c0",
+            "8194941d-ce4e-4b00-9d83-75137ffdf6ac"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 773,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mocha",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
