@@ -20,6 +20,27 @@ Cypress.Commands.add('createUser', (user) => {
         });
 });
 
+Cypress.Commands.add('deleteUser', (userId) => {
+    return cy
+        .request({
+            method: 'DELETE',
+            url: `/usuarios/${userId}`,
+            failOnStatusCode: false,
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                expect(response.body.message).to.eq(
+                    'Registro excluído com sucesso',
+                );
+            } else {
+                expect(response.status).to.eq(400);
+                expect(response.body.message).to.eq(
+                    'Não é permitido excluir usuário com carrinho cadastrado',
+                );
+            }
+        });
+});
+
 Cypress.Commands.add('Login', (email, password) => {
     return cy
         .request({
@@ -51,6 +72,38 @@ Cypress.Commands.add('createProduct', (product, authToken) => {
         });
 });
 
+Cypress.Commands.add('deleteProduct', (productId, authToken) => {
+    return cy
+        .request({
+            method: 'DELETE',
+            url: `/produtos/${productId}`,
+            headers: {
+                Authorization: authToken,
+            },
+        })
+        .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body.message).to.eq(
+                'Registro excluído com sucesso',
+            );
+        });
+});
+
+Cypress.Commands.add('createCart', (cart, authToken) => {
+    return cy
+        .request({
+            method: 'POST',
+            url: '/carrinhos',
+            headers: {
+                Authorization: authToken,
+            },
+            body: cart,
+        })
+        .then((response) => {
+            return response.body._id; // Return the cart ID for use in tests
+        });
+});
+
 Cypress.Commands.add('deleteCart', (cartId, authToken) => {
     return cy
         .request({
@@ -65,19 +118,5 @@ Cypress.Commands.add('deleteCart', (cartId, authToken) => {
             expect(response.body.message).to.eq(
                 'Registro excluído com sucesso. Estoque dos produtos reabastecido',
             );
-        });
-});
-Cypress.Commands.add('createCart', (cart, authToken) => {
-    return cy
-        .request({
-            method: 'POST',
-            url: '/carrinhos',
-            headers: {
-                Authorization: authToken,
-            },
-            body: cart,
-        })
-        .then((response) => {
-            return response.body._id; // Return the cart ID for use in tests
         });
 });
