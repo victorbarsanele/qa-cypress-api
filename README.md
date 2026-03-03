@@ -1,6 +1,7 @@
 # ServeRest API Tests
 
 [![CI Status](https://github.com/victorbarsanele/qa-cypress-api/actions/workflows/ci.yml/badge.svg)](https://github.com/victorbarsanele/qa-cypress-api/actions)
+
 ![Cypress](https://img.shields.io/badge/-cypress-%23E9E9E9?style=for-the-badge&logo=cypress&logoColor=17202C)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
