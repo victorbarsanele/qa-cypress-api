@@ -127,16 +127,6 @@ Actions → Workflow Run → Artifacts
 
 ---
 
-## 👨‍💻 Autor
-
-Victor Barsanele  
-QA Automation Engineer com foco em automação de API e E2E.
-
-LinkedIn: https://linkedin.com/in/victorbarsanele
-GitHub: https://github.com/victorbarsanele
-
----
-
 ## 🇺🇸 English
 
 # ServeRest API Tests
@@ -253,11 +243,3 @@ Actions → Workflow Run → Artifacts
 - Clean Git workflow (.gitignore best practices)
 
 ---
-
-## 👨‍💻 Author
-
-Victor Barsanele  
-QA Automation Engineer focused on API and E2E automation.
-
-LinkedIn: https://linkedin.com/in/victorbarsanele
-GitHub: https://github.com/victorbarsanele
